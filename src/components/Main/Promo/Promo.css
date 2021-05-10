@@ -1,0 +1,132 @@
+@import url(../Main.css);
+
+.promo {
+  font-weight: normal;
+  text-align: start;
+
+  display: grid;
+  grid-template-columns: 640px 310px;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1140px;
+  column-gap: calc(100vw - 640px - 310px - 140px);
+
+  padding-top: 75px;
+  padding-bottom: 84px;
+
+  background: #5C5C5C;
+
+}
+
+.promo__conteiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: 640px;
+}
+
+.br {
+  display: inline;
+}
+
+.promo__title {
+  font-size: 50px;
+  line-height: 1.16;
+  font-weight: normal;
+  color: #FFFFFF;
+  margin: 0 0 36px;
+}
+
+.promo__text {
+  font-size: 13px;
+  line-height: 1.231;
+  max-width: 310px;
+
+  color: #FFFFFF;
+
+  mix-blend-mode: normal;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.promo__logo {
+  background-image: url('../../../images/landing-logo.svg');
+    width: 310px;
+    height: 304px;
+    background-size: contain;
+}
+
+ /*точки перелома*/
+
+ @media screen and (min-width: 1280px) {
+   .promo {
+    column-gap: calc(1280px - 640px - 310px - 140px);
+   }
+ }
+
+ @media (min-width: 500px) and (max-width: 1122px) {
+  .promo {
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 140px calc((100vw - 680px)/2) 92px;
+
+  }
+
+  .promo__conteiner {
+    align-items: center;
+    max-width: 680px;
+  }
+
+  .promo__title {
+    font-size: 40px;
+    line-height: 1.25;
+    margin: 48px 0 22px;
+  }
+
+  .br {
+    display: none;
+  }
+
+  .promo__text {
+    max-width: 260px;
+  }
+
+ }
+ @media screen and (max-width: 500px) {
+  .promo {
+    text-align: center;
+
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 70px 10px 80px;
+
+  }
+  .promo__conteiner {
+    align-items: center;
+    min-width: 300px;
+  }
+
+  .promo__title {
+    letter-spacing: -0.04em;
+    font-size: 30px;
+    line-height: 1.27;
+    margin: 44px 0 24px;
+    width: calc(100vw - 20px);
+  }
+
+  .promo__text {
+    max-width: 260px;
+  }
+
+  .promo__logo {
+    width: 210px;
+    height: 206px;
+  }
+ }
