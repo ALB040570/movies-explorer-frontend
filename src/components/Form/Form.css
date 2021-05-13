@@ -95,7 +95,8 @@
   width: auto;
 }
 .form__input:focus {
-  opacity: .8;
+  border-bottom: 1px solid  #2BE080;
+
 }
 
 .form__input_error {
