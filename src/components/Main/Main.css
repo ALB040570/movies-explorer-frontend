@@ -11,6 +11,7 @@
   flex-direction: column;
 
   max-width: 1140px;
+  min-width: 300px;
 }
 
 .main__section-title {
@@ -40,6 +41,12 @@
   .main__section_narrow {
     padding-left: 14px;
     padding-right: 14px;
+
+  }
+
+  .main__section_narrowest {
+    padding-left: 10px;
+    padding-right: 10px;
 
   }
 

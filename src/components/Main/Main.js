@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../Header/Header';
 import Promo from '../Main/Promo/Promo';
 import NavTab from '../Main/NavTab/NavTab';

@@ -1,0 +1,106 @@
+@import url(../Main/Main.css);
+
+.search-form {
+  padding-top: 70px;
+  padding-bottom: 69px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.search-form__container {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  background: #FDFDFD;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 9px;
+  width: calc(100vw - 140px);
+  height: 72px;
+}
+
+.searc-form__input-box {
+  padding: 19px 19px 19px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.search-form__button {
+  background-image: url(../../images/find.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 80px;
+  height: 34px;
+  border: none;
+  background-color:  #FDFDFD;
+}
+
+.search-form__input {
+  width: calc(100vw - 140px - 226px - 80px - 38px);
+  border: none;
+  background-color: none;
+  font-family: Inter;
+}
+
+.search-form__input::placeholder {
+  background-image: url(../../images/icon.svg);
+  background-origin: padding-box;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-size: 34px 34px;
+  padding-left: 44px;
+  font-size: 18px;
+  line-height: 1.11;
+  color: #A0A0A0;
+}
+
+
+
+/*точки перелома*/
+@media screen and (min-width: 1280px) {
+  .search-form__container {
+    width: calc(1280px - 140px);
+  }
+
+  .search-form__input {
+    width: calc(1280px - 140px - 226px - 80px - 38px);
+  }
+}
+
+@media (min-width: 500px) and (max-width: 1122px)  {
+  .search-form {
+    padding-top: 80px;
+    padding-bottom: 109px;
+  }
+
+  .search-form__container {
+    width: calc(100vw - 60px);
+  }
+
+  .search-form__input {
+    width: calc(100vw - 60px - 207px - 80px - 38px);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .search-form {
+    padding-top: 80px;
+    padding-bottom: 44px;
+  }
+
+  .search-form__container {
+    width: calc(100vw - 20px);
+  }
+
+  .search-form__input {
+    width: calc(100vw - 20px - 80px - 38px);
+  }
+
+  .search-form__input::placeholder {
+    background-image: none;
+    padding-left: 0;
+    font-size: 14px;
+    line-height: 1.43;
+  }
+}

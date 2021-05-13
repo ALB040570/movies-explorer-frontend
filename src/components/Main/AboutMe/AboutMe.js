@@ -1,4 +1,3 @@
-import React from 'react';
 import Photo from '../../../images/photo-min.png';
 import './AboutMe.css';
 

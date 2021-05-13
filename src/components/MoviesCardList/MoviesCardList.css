@@ -1,0 +1,84 @@
+@import url(../Main/Main.css);
+
+.movies-list {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 57px 30px;
+  padding-inline-start: 0;
+  max-width: calc(100vw - 140px);
+  overflow: hidden;
+}
+
+.movies-list_movies {
+  margin: 80px 0 26px 0;
+  height: 1100px;
+}
+
+.movies-list_saved-movies {
+  margin: 80px 0 100px 0;
+  height: 250px;
+  overflow:visible;
+}
+
+.additional-button {
+  margin: 50px auto 80px;
+  padding: 0;
+  background-color: #FFFFFF;
+
+}
+
+.additional-button_movies {
+  height: 36px;
+  min-width: 240px;
+  border-radius: 6px;
+  border:  #E8E8E8 1px solid;
+  background-color: #FFFFFF;
+  outline: none;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+}
+.additional-button_saved-movies {
+  height: 10px;
+  visibility: hidden;
+}
+
+.additional-button:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+/*точки перелома*/
+@media screen and (min-width: 1280px) {
+  .movies-list {
+    max-width: calc(1280px - 60px);
+  }
+}
+
+@media (min-width: 500px) and (max-width: 1122px) {
+  .movies-list {
+    grid-template-columns: repeat(auto-fill, minmax(339px, 1fr));
+    margin: 80px 0 12px 0;
+    gap: 45px 30px;
+    max-width: calc(100vw - 60px);
+  }
+
+}
+
+@media screen and (max-width: 500px) {
+  .movies-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin: 50px 0 10px 0;
+    gap: 36px 30px;
+    max-width: calc(100vw - 20px);
+    min-width: 300px;
+    height: 1150px;
+}
+}

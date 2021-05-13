@@ -1,4 +1,3 @@
-import React from 'react';
 import './Footer.css';
 
 //презентационный компонент, который отрисовывает подвал
@@ -16,8 +15,6 @@ function Footer() {
           </ul>
         </nav>
       </div>
-
-
     </footer>
   );
 }

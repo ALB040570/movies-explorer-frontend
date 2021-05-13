@@ -1,17 +1,17 @@
-import React from 'react';
+import {useState} from 'react';
 import {Link, Route, Switch} from 'react-router-dom';
 import Logo from '../../images/logo.svg';
 import Profile from '../../images/profile.svg';
 import Menu from '../../images/menu.svg';
-// import Navigation from '../Navigation/Navigation';
+import Navigation from '../Navigation/Navigation';
 import './Header.css';
 
 //компонент, который отрисовывает шапку сайта на страницу
 function Header(props) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuOpen = () => setIsMenuOpen(true);
-  // const menuClose = () => setIsMenuOpen(false);
+  const menuClose = () => setIsMenuOpen(false);
 
   return (
     <Switch>
@@ -31,8 +31,8 @@ function Header(props) {
         </header>
       </Route>
       <Route exact path = {['/signup', '/signin']}>
-        <header className="header header_start">
-          <Link to="/"><img src={Logo} alt='логотип'/></Link>
+        <header className="header-greeting">
+          <Link to="/"><img className="logo" src={Logo} alt='логотип'/></Link>
           <p className="greeting">{props.greeting}</p>
         </header>
       </Route>
@@ -41,18 +41,14 @@ function Header(props) {
           <Link to="/">
             <img className="logo" src={Logo} alt='логотип'/>
           </Link>
-          <div className="header__bar">
-            <nav className="header__menu">
-              <Link className="header__menu-link" to='/movies'>Фильмы</Link>
-              <Link className="header__menu-link" to='/saved-movies'>Сохраненные фильмы</Link>
-            </nav>
-            <nav>
+          <nav className="header__bar">
+            <div  className={`header__menu ${isMenuOpen && 'header__menu_opened'}`}><Navigation isMenuOpen={isMenuOpen}/></div>
               <img className="header__menu-button" src={Menu} alt='кнопка меню' onClick = {menuOpen} />
-              <Link to='/profile'>
-                <button className="header__button header__button_display"><img src={Profile} alt='аккаунт'/></button>
-              </Link>
+              {isMenuOpen && <div className="header__overlay"></div>}
+              {isMenuOpen &&  <button type="button" className="header__close-button" onClick={menuClose}></button>}
+              <Link to='/profile'><button className="header__button header__button_display"><img src={Profile} alt='аккаунт'/></button></Link>
             </nav>
-          </div>
+          {/* </div> */}
         </header>
       </Route>
     </Switch>

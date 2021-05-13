@@ -10375,6 +10375,11 @@
     "select-hose" "^2.0.0"
     "spdy-transport" "^3.0.0"
 
+"spinthatshit@^1.0.4":
+  "integrity" "sha1-2qM6uHr3f9oE2DrZGwQYuVV8BGE="
+  "resolved" "https://registry.npmjs.org/spinthatshit/-/spinthatshit-1.0.4.tgz"
+  "version" "1.0.4"
+
 "split-string@^3.0.1", "split-string@^3.0.2":
   "integrity" "sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw=="
   "resolved" "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz"
@@ -10698,6 +10703,11 @@
   dependencies:
     "has-flag" "^4.0.0"
     "supports-color" "^7.0.0"
+
+"svg-loaders@^0.2.0":
+  "integrity" "sha512-yE4UtCqr8L45QKhZX6p4B07iZfFrDPXmDLfxqJN+uOeJ1gAxpTXA4qOIVvjv1JsguDFanrph1k9fF1jciB1NeQ=="
+  "resolved" "https://registry.npmjs.org/svg-loaders/-/svg-loaders-0.2.0.tgz"
+  "version" "0.2.0"
 
 "svg-parser@^2.0.2":
   "integrity" "sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ=="

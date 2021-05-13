@@ -1,10 +1,19 @@
-import React from 'react';
+import './Login.css';
 import Header from '../Header/Header';
+import Form from '../Form/Form';
 
-//компонент страницы авторизации
 function Login() {
   return (
-    <Header greeting='Рады видеть!'/>
+    <>
+      <Header greeting="Рады видеть!"/>
+      <Form formType = "input"
+            formName = "login"
+            formButton = "Войти"
+            formText = "Ещё не зарегистрированы?"
+            link = "signup"
+            linkLabel = "Регистрация">
+      </Form>
+    </>
   );
 }
 
