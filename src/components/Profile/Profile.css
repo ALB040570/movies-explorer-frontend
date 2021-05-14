@@ -1,0 +1,28 @@
+.profile {
+  font-family: "Inter", "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__title {
+  margin: 74px 0 106px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+}
+
+@media (min-width: 500px) and (max-width: 1122px) {
+  .profile__title {
+    margin: 236px 0 79px;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .profile__title {
+    margin: 70px 0 63px;
+  }
+}

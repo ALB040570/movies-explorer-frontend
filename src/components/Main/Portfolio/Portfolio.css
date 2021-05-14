@@ -1,0 +1,118 @@
+@import url(../Main.css);
+
+.portfolio {
+  padding-bottom: 106px;
+  width: calc(100vw - 140px);
+}
+
+.portfolio__title {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.11;
+  color: #A0A0A0;
+  mix-blend-mode: normal;
+  margin: 0 0 30px;
+}
+
+.portfolio__list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding-inline-start: 0;
+  margin: 0;
+
+}
+
+.portfolio__list-item {
+  border-bottom: 1px solid #E8E8E8;
+  padding: 20px 0 9px;
+}
+
+.portfolio__list-item:last-child {
+  border-bottom: none;
+}
+
+.portfolio__list-arrow {
+  background-image: url('../../../images/arrow.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 29px;
+  height: 60px;
+  margin: 0;
+}
+
+.portfolio__list-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 1.67;
+  letter-spacing: -0.04em;
+  color: #000000;
+  text-decoration: none;
+  width: calc(100vw - 140px);
+}
+
+.portfolio__list-link:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1280px) {
+  .portfolio {
+  width: calc(1280px - 140px);
+  }
+  .portfolio__list-link {
+    width: calc(1280px - 140px);
+  }
+}
+
+@media (min-width: 500px) and (max-width: 1122px) {
+  .portfolio {
+    padding-bottom: 71px;
+    width: calc(100vw - 100px);
+  }
+
+  .portfolio__list-arrow {
+    width: 27px;
+  }
+
+
+  .portfolio__list-link {
+    font-size: 28px;
+    line-height: 1.79;
+    width: calc(100vw - 100px);
+
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .portfolio {
+    padding-bottom: 51px;
+    width: calc(100vw - 28px);
+  }
+
+  .portfolio__title {
+    font-size: 14px;
+    line-height: 1.43;
+    margin: 0 0 20px;
+  }
+
+  .portfolio__list-item {
+    padding: 20px 0 19px;
+  }
+
+  .portfolio__list-arrow {
+    width: 18px;
+    height: 28px;
+  }
+
+
+  .portfolio__list-link {
+    font-size: 18px;
+    line-height: 1.56;
+    width: calc(100vw - 28px);
+
+  }
+}
