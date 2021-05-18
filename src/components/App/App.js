@@ -34,9 +34,9 @@ function App() {
         <Route path="/movies">
           <Movies />
         </Route>
-        <Route path="/saved-movies">
+        {/* <Route path="/saved-movies">
           <SavedMovies />
-        </Route>
+        </Route> */}
         <Route path="/profile">
           <Profile name = {name}
                    email = {email}

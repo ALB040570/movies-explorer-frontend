@@ -1,1 +1,8 @@
 @import url(../Main/Main.css);
+.preloader_display-block {
+  display: block;
+}
+
+.preloader_display-none {
+  display: none;
+}

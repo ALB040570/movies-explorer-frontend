@@ -12,7 +12,13 @@
 
 .movies-list_movies {
   margin: 80px 0 26px 0;
+  /* height: 1100px; */
+}
+.movies-list_scroll {
+
   height: 1100px;
+  overflow: scroll;
+  align-self: flex-end;
 }
 
 .movies-list_saved-movies {

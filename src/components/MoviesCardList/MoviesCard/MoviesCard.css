@@ -12,7 +12,7 @@
   border-radius: 6px;
   height: 201px;
   width: 360px;
-  object-fit: contain;
+  object-fit: cover;
   grid-area: 1/ 1/ 1/ 2;
   z-index: 2;
 }
