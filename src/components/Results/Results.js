@@ -41,7 +41,6 @@ function Results(props) {
               {props.movies.length===0?
                 props.keyword&&<p className="result__message">Ничего не найдено</p>:
                 <MoviesCardList
-                  class="movies"
                   movies={props.movies}
                   keyword={props.keyword}
                   countInPage={countInPage}
@@ -49,7 +48,7 @@ function Results(props) {
                   heightRow={heightRow}
                   onSavedMovie={props.onSavedMovie}
                   onNotSavedMovie={props.onNotSavedMovie}
-                  
+                  currentPage={props.currentPage}
                   />}
             </>}
         </>}

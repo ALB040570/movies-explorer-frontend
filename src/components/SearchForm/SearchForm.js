@@ -4,7 +4,9 @@ import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
 function SearchForm(props) {
   //переменная состояния для хранения значения поля ввода ключевого слова для поиска фильма
-  const[searchInputValue, setSearchInputValue] = useState(props.keyword?props.keyword:JSON.parse(localStorage.getItem('keyword')));
+  const[searchInputValue, setSearchInputValue] = useState(
+    props.keyword?props.keyword:props.currentPage==='saved-movies'?JSON.parse(localStorage.getItem('keywordForSavedMovies')):JSON.parse(localStorage.getItem('keyword'))
+    );
   const searchInput = document.getElementById('keyword');
 
   //обработчик изменения значения поля ввода ключевого слова
@@ -28,6 +30,7 @@ function SearchForm(props) {
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
     props.onUpdateSearch(searchInputValue);
+    props.currentPage==='saved-movies'?localStorage.setItem('keywordForSavedMovies', JSON.stringify(searchInputValue)):
     localStorage.setItem('keyword', JSON.stringify(searchInputValue))
   }
 

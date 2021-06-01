@@ -11,7 +11,11 @@ function SavedMovies(props) {
     <>
       <Header />
       <main className="main">
-      <SearchForm onUpdateSearch={props.onChangeRequest} keyword={props.isRequest}/>
+      <SearchForm
+        onUpdateSearch={props.onChangeRequest}
+        keyword={props.isRequest}
+        currentPage={props.currentPage}
+        />
         {(props.isRequest)?
           <Results
             isFetching={props.isFetching}
@@ -20,6 +24,7 @@ function SavedMovies(props) {
             keyword={props.isRequest}
             onSavedMovie={props.onSavedMovie}
             onNotSavedMovie={props.onNotSavedMovie}
+            currentPage={props.currentPage}
 
           />:
           localStorage.getItem('savedMovies')&&<Results
@@ -29,7 +34,8 @@ function SavedMovies(props) {
             keyword={JSON.parse(localStorage.getItem('keyword'))}
             onSavedMovie={props.onSavedMovie}
             onNotSavedMovie={props.onNotSavedMovie}
-           
+            currentPage={props.currentPage}
+
           />
           }
       </main>

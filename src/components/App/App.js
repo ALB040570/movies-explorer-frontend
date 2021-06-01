@@ -36,8 +36,14 @@ function App() {
     });
 
   const[savedMovies, setSavedMovies]=useState([]);
-  const[filterFromSavedMovies,setFilterFromSavedMovies]=useState([]);
+  // const[filterFromSavedMovies,setFilterFromSavedMovies]=useState([]);
   const[isRequestInSavedMovies, setIsRequestInSavedMovies] = useState('');//значение для поиска фильмов
+
+  const currentPage={
+    1: 'movies',
+    2: 'saved-movies'
+  }
+
   //установка текущего пользователя
   useEffect(()=>{
     const token = localStorage.getItem('jwt');
@@ -57,11 +63,12 @@ function App() {
   const onSignOut =() => {
     setLoggedIn(false);
     setMoviesFromServis([]);
-    filterFromSavedMovies([]);
+    // filterFromSavedMovies([]);
     setIsRequest('');
     setIsRequestInSavedMovies('');
     localStorage.removeItem('jwt');
     localStorage.removeItem('keyword');
+    localStorage.removeItem('keywordForSavedMovies');
     localStorage.removeItem('movies');
     localStorage.removeItem('savedMovies');
     history.push('/');
@@ -87,6 +94,7 @@ function App() {
   } else {
     setIsRequestInSavedMovies(keyword.toLowerCase());
   }}
+
 
    //загружает данные с сервиса beatfilm-movies
   useEffect(()=>{
@@ -118,28 +126,18 @@ function App() {
     if (!token) {
       return
     }
-    // setIsError('');
-    // setIsFetchingSavedMovies(true);
+    setIsError('');
     api
       .getSavedMovies()
       .then((savedMoviesFromApi) => {
-        // debugger
-        // console.log(savedMoviesFromApi)
         setSavedMovies(savedMoviesFromApi.data.data);
-
         localStorage.setItem('savedMovies', JSON.stringify(savedMoviesFromApi.data.data));
-        // const films = JSON.parse(localStorage.getItem('savedMovies'))
-        // const filter = films.filter(function (movie) {
-        //   return movie.nameRU.toLowerCase().includes(isRequestInSavedMovies);
-        // });
-        // console.log(filter)
-        // setFilterFromSavedMovies(filter);
-        // setIsFetchingSavedMovies(false);
       })
       .catch((err) => {
         setIsError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
         console.log(err);});
   }, [isRequestInSavedMovies, loggedIn])
+
 
 
   const onRegister = (name, email, password) =>{
@@ -253,18 +251,30 @@ function App() {
           onNotSavedMovie={handleMoveDelete}
           selectMovies = {moviesFromServis}
           isFetching={isFetching}
-          savedMovies={savedMovies}
+          currentPage={currentPage[1]}
         />
 
-       {/* <ProtectedRoute path="/saved-movies"
+       <ProtectedRoute path="/saved-movies"
           loggedIn={loggedIn}
           component={SavedMovies}
           onChangeRequest={handleChangeRequestInSavedMovies}
+          onNotSavedMovie={handleMoveDelete}
           isRequest={isRequestInSavedMovies}
-          selectMovies = {filterFromSavedMovies}
-          isFetching={isFetchingSavedMovies}
+          currentPage={currentPage[2]}
+          selectMovies = {()=>{
+            const films = JSON.parse(localStorage.getItem('savedMovies'))
+            if (films.length!==0)
+            {const filter = films.filter(function (movie) {
+                  return movie.nameRU.toLowerCase().includes(isRequestInSavedMovies);
+                });
+                console.log(filter)
+
+                setIsFetchingSavedMovies(false);
+                return filter}
+          }}
+          isFetching={false}
           isError={isError}
-        /> */}
+        />
 
         <Route path="/profile">
           <Profile

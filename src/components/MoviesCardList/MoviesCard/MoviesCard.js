@@ -10,12 +10,12 @@ class MoviesCard extends React.Component{
     this.state = {
       isSaved: props.isSaved
     };
-    
+
     this._obj=props.movie;
-    this._movieId={movieId: props.movie.id}
-    this._image={image: optionsForApi.serverWithMoviesApiUrl+props.movie.image.url}
-    this._thumbnail=props.movie.thumbnail?{thumbnail:props.movie.thumbnail}:{thumbnail: optionsForApi.serverWithMoviesApiUrl+props.movie.image.formats.thumbnail.url}
-    this._trailer={trailer: props.movie.trailerLink}
+    this._movieId=props.movie.movieId?{movieId:props.movie.movieId}:{movieId: props.movie.id}
+    this._image=props.movie.movieId?{image: props.movie.image}:{image: optionsForApi.serverWithMoviesApiUrl+props.movie.image.url}
+    this._thumbnail=props.movie.movieId?{thumbnail:props.movie.thumbnail}:{thumbnail: optionsForApi.serverWithMoviesApiUrl+props.movie.image.formats.thumbnail.url}
+    this._trailer=props.movie.movieId?{trailer:props.movie.trailer}:{trailer: props.movie.trailerLink}
 
     this._movie = Object.assign({}, this._obj, this._image, this._thumbnail, this._trailer, this._movieId )
 
@@ -24,10 +24,11 @@ class MoviesCard extends React.Component{
   }
 
   handleClick = () => {
-    window.open(this._movie.trailer);
+    window.open(this.props.movie.movieId?this.props.movie.trailer:this._movie.trailer);
   }
 
   changeSave =() =>{
+
     if (!this.state.isSaved) {
     this.setState({
       isSaved: true
@@ -39,11 +40,16 @@ class MoviesCard extends React.Component{
       isSaved: false
     });
     const films = JSON.parse(localStorage.getItem('savedMovies'));
+    if(this.props.currentPage==='saved-movies') {
+
     const filter = films.filter( (movie)=> {
       return movie.movieId === this._movie.movieId;
     });
 
-    this.props.onNotSavedMovie(filter[0]);
+    this.props.onNotSavedMovie(filter[0]);}
+    else {
+      this.props.onNotSavedMovie(this.props.movie._id)
+    }
   }
 }
 
@@ -55,7 +61,7 @@ class MoviesCard extends React.Component{
         {this.props.movie.image&&
         <img
           className="movie-card__photo"
-          src={`${optionsForApi.serverWithMoviesApiUrl}${this.props.movie.image.url}`}
+          src={this.props.movie.movieId?this._movie.image:`${optionsForApi.serverWithMoviesApiUrl}${this.props.movie.image.url}`}
           alt={this.props.movie.nameRU}
           onClick={this.handleClick}
           />}
@@ -69,7 +75,7 @@ class MoviesCard extends React.Component{
           <button className={`movie-card__button ${this.state.isSaved? "movie-card__button_small movie-card__saved": "movie-card__button_type_save"}`} onClick={this.changeSave}></button>
         </Route>
         <Route path="/saved-movies">
-          <button className="movie-card__button movie-card__button_small movie-card__button_type_remove"></button>
+          <button className="movie-card__button movie-card__button_small movie-card__button_type_remove" onClick={this.changeSave}></button>
         </Route>
       </li>
     );

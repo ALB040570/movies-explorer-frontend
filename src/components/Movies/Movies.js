@@ -19,6 +19,7 @@ function Movies(props) {
             keyword={props.isRequest}
             onSavedMovie={props.onSavedMovie}
             onNotSavedMovie={props.onNotSavedMovie}
+            currentPage={props.currentPage}
 
           />:
           localStorage.getItem('movies')&&<Results
@@ -28,7 +29,7 @@ function Movies(props) {
             keyword={JSON.parse(localStorage.getItem('keyword'))}
             onSavedMovie={props.onSavedMovie}
             onNotSavedMovie={props.onNotSavedMovie}
-           
+            currentPage={props.currentPage}
           />
           }
       </main>
