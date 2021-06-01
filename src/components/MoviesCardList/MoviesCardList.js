@@ -2,9 +2,11 @@ import './MoviesCardList.css';
 import MoviesCard from './MoviesCard/MoviesCard';
 import { useState, useRef, useEffect, useContext } from 'react';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
-
+import useFilter from '../../utils/useFilter';
 
 function MoviesCardList(props) {
+  
+
   const currentUser = useContext(CurrentUserContext);
   const[contClick, setCountClik] = useState(0);//количество кликов по кнопке Ещё
   const films = JSON.parse(localStorage.getItem('savedMovies'));
@@ -44,9 +46,11 @@ function MoviesCardList(props) {
   //индекса показываемых карточек или количества карточек в ряду
   useEffect(scrollToBottom, [props.countinRow, props.heightRow, props.countInPage, contClick, props.currentPage]);
 
+
   return (
       <section className="main__section main__section_narrowest">
           {props.currentPage==='movies'?
+
             <ul
               ref={containetWithMovies}
               className={`movies-list movies-list_${props.currentPage}
@@ -67,7 +71,7 @@ function MoviesCardList(props) {
               }
            </ul>:
            <ul  className={`movies-list movies-list_${props.currentPage}}`}>
-             {props.movies.map((movie, index) => (
+             {props.movie.map((movie, index) => (
                 <MoviesCard
                   key={movie.id}
                   movie = {movie}

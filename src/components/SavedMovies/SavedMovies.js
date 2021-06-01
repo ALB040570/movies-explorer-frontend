@@ -2,10 +2,27 @@ import SearchForm from '../SearchForm/SearchForm';
 import Results from '../Results/Results';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-
+import useFilter from '../../utils/useFilter';
+import { useState, useCallback, useEffect } from 'react';
 
 //компонент страницы с сохранёнными карточками фильмов.
 function SavedMovies(props) {
+  const [filterFromSavedMovies, setFilterFromSavedMovies]=useState(props.savedMovies);
+  const {filterByKeyword}= useFilter();
+
+  const filter = useCallback(
+    () => {
+
+        const filter =filterByKeyword(props.savedMovies,props.isRequest);
+
+        setFilterFromSavedMovies(filter);
+    },
+    [ props.isRequest, props.savedMovies],
+  );
+useEffect(()=>{
+  filter();
+},[filter])
+
 
   return (
     <>
@@ -16,28 +33,15 @@ function SavedMovies(props) {
         keyword={props.isRequest}
         currentPage={props.currentPage}
         />
-        {(props.isRequest)?
-          <Results
+        {localStorage.getItem('savedMovies')&&<Results
+            onNotSavedMovie={props.onNotSavedMovie}
+            currentPage={props.currentPage}
             isFetching={props.isFetching}
             isError={props.isError}
-            movies={props.selectMovies}
+            movies={props.isRequest?filterFromSavedMovies:JSON.parse(localStorage.getItem('savedMovies'))}
             keyword={props.isRequest}
-            onSavedMovie={props.onSavedMovie}
-            onNotSavedMovie={props.onNotSavedMovie}
-            currentPage={props.currentPage}
 
-          />:
-          localStorage.getItem('savedMovies')&&<Results
-            isFetching={false}
-            isError={''}
-            movies={JSON.parse(localStorage.getItem('savedMovies'))}
-            keyword={JSON.parse(localStorage.getItem('keyword'))}
-            onSavedMovie={props.onSavedMovie}
-            onNotSavedMovie={props.onNotSavedMovie}
-            currentPage={props.currentPage}
-
-          />
-          }
+          />}
       </main>
       <Footer />
     </>

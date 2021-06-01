@@ -12,20 +12,23 @@ import MoviesApi from '../../utils/MoviesApi';
 import api from '../../utils/MainApi';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import ProtectedRoute from './ProtectedRoute';
+import useFilter from '../../utils/useFilter';
+
 
 
 function App() {
+  const {filterByKeyword}=useFilter();
 
   const history = useHistory();
 
   //Стейты, в которых хранятся
   const[currentUser, setCurrenUser]=useState({name: '', email: '', password: ''});
   const[isRequest, setIsRequest] = useState('');//значение для поиска фильмов
-  const[moviesFromServis, setMoviesFromServis]=useState([]);// отфильтрованные фильмы
+  const[moviesFromServis, setMoviesFromServis]=useState([]);//  фильмы
 
   const[isError,setIsError]=useState('');//сообщения об ошибке
   const[isFetching,setIsFetching]=useState(true);//флаг о том, что идет загрузка данных
-  const[isFetchingSavedMovies,setIsFetchingSavedMovies]=useState(true)
+
 
   const[isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);//включить или выключить сообщение
   const[typeInfo, setTypeInfo] = useState(null);//сообщение
@@ -105,20 +108,15 @@ function App() {
     setIsError('');
     setIsFetching(true);
     isRequest&&MoviesApi()
-      .then ((moviesFromServis) => {
-        const filter = moviesFromServis.filter(function (movie) {
-          return movie.nameRU.toLowerCase().includes(isRequest);
-        });
-        setMoviesFromServis(filter);
-        localStorage.setItem('movies', JSON.stringify(filter))
+      .then ((filmsFromServis) => {
+        setMoviesFromServis(()=>filmsFromServis);
         setIsFetching(false);
-
       })
       .catch((err) => {
         setIsError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
         console.log(err);
       });
-      },[isRequest, currentUser]);
+      },[isRequest]);
 
   //загружает сохраненные фильмы
   useEffect(()=>{
@@ -249,8 +247,8 @@ function App() {
           isError={isError}
           onSavedMovie = {handleAddMovie}
           onNotSavedMovie={handleMoveDelete}
-          selectMovies = {moviesFromServis}
-          isFetching={isFetching}
+          allMovies = {moviesFromServis}
+          isFetching={isRequest?isFetching:false}
           currentPage={currentPage[1]}
         />
 
@@ -261,17 +259,7 @@ function App() {
           onNotSavedMovie={handleMoveDelete}
           isRequest={isRequestInSavedMovies}
           currentPage={currentPage[2]}
-          selectMovies = {()=>{
-            const films = JSON.parse(localStorage.getItem('savedMovies'))
-            if (films.length!==0)
-            {const filter = films.filter(function (movie) {
-                  return movie.nameRU.toLowerCase().includes(isRequestInSavedMovies);
-                });
-                console.log(filter)
-
-                setIsFetchingSavedMovies(false);
-                return filter}
-          }}
+          savedMovies = {savedMovies}
           isFetching={false}
           isError={isError}
         />
