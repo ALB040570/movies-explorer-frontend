@@ -3,31 +3,33 @@ import './SearchForm.css';
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
 function SearchForm(props) {
+  //переменная состояния для хранения значения поля ввода ключевого слова для поиска фильма
+  const[searchInputValue, setSearchInputValue] = useState(props.keyword?props.keyword:JSON.parse(localStorage.getItem('keyword')));
+  const searchInput = document.getElementById('keyword');
 
-  const[searchInputValue, setSearchInputValue] = useState('');
-
-  const handleChange = (e) =>{
+  //обработчик изменения значения поля ввода ключевого слова
+  const handleSetSearchInputValue = (e) =>{
     e.target.id === "keyword"&&setSearchInputValue(e.target.value);
+    searchInput.setCustomValidity('');
+    searchInput.checkValidity();
+  }
+
+  //обработчик события invalid
+  const handleSetCustomValidity=()=>{
+    if(searchInput.value === '') {
+      searchInput.setCustomValidity('Нужно ввести ключевое слово');
+    } else {
+      searchInput.setCustomValidity('Фраза не должна начинаться с пробела');
+    }
   }
 
   const handleSubmit = (e) =>{
-    // Запрещаем браузеру переходить по адресу формы
+    // действие по умолчанию не должно выполняться так, как обычно
     e.preventDefault();
-    
     // Передаём значения управляемых компонентов во внешний обработчик
     props.onUpdateSearch(searchInputValue);
-    // document.getElementById('keyword').checkValidity();
-    // console.log(e.target.value);
- // Если в поле не введён текст, выводится ошибка «Нужно ввести ключевое слово»
-    // if (searchInputValue===''||null) {
-    //   console.error();
-    //   document.getElementById('keyword').setCustomValidity("Нужно ввести ключевое слово");
-    // } else {
-    //   document.getElementById('keyword').setCustomValidity("");
-    // }
-
-}
-
+    localStorage.setItem('keyword', JSON.stringify(searchInputValue))
+  }
 
   return (
     <section className="main__section main__section_narrowest">
@@ -37,21 +39,19 @@ function SearchForm(props) {
         onSubmit = {handleSubmit}>
         <div className="search-form__container">
             <div className="searc-form__input-box">
-              <input
-                form="search"
+              <input form="search"
                 id="keyword"
                 type="text"
                 className="search-form__input"
                 placeholder= "Фильм"
-                onChange={handleChange}
                 pattern="^[^\s]+(\s.*)?$"
+                required
                 value={searchInputValue}
-
+                onChange={handleSetSearchInputValue}
+                onInvalid={handleSetCustomValidity}
                 />
-              <button
-                type="submit"
+              <button type="submit"
                 className="search-form__button">
-
                 </button>
             </div>
             <FilterCheckbox display="filter_right"/>

@@ -1,18 +1,37 @@
 import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Results from '../Results/Results';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import movies from '../../utils/movies';
+
 
 //компонент страницы с сохранёнными карточками фильмов.
-function SavedMovies() {
-  const savedMovies = movies.filter(movie => movie.isSaved === true);
+function SavedMovies(props) {
+
   return (
     <>
       <Header />
       <main className="main">
-        <SearchForm />{/* форма поиска, куда пользователь будет вводить запрос*/}
-        <MoviesCardList movies={savedMovies} class="saved-movies"/> {/* компонент, который управляет отрисовкой карточек фильмов на страницу и их количеством */}
+      <SearchForm onUpdateSearch={props.onChangeRequest} keyword={props.isRequest}/>
+        {(props.isRequest)?
+          <Results
+            isFetching={props.isFetching}
+            isError={props.isError}
+            movies={props.selectMovies}
+            keyword={props.isRequest}
+            onSavedMovie={props.onSavedMovie}
+            onNotSavedMovie={props.onNotSavedMovie}
+
+          />:
+          localStorage.getItem('savedMovies')&&<Results
+            isFetching={false}
+            isError={''}
+            movies={JSON.parse(localStorage.getItem('savedMovies'))}
+            keyword={JSON.parse(localStorage.getItem('keyword'))}
+            onSavedMovie={props.onSavedMovie}
+            onNotSavedMovie={props.onNotSavedMovie}
+           
+          />
+          }
       </main>
       <Footer />
     </>

@@ -1,4 +1,4 @@
-import optionsForApi from './constants';
+import {optionsForApi} from './constants';
 
 function MoviesApi() {
 
