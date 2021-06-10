@@ -1,7 +1,7 @@
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './Results.css'
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 
 
 function Results(props) {
@@ -15,18 +15,17 @@ function Results(props) {
   ////максимальная высота ряда с карточками
   const[heightRow, setHeightRow] = useState(291);
 
-  useEffect(()=>{
+
+  const handleChangeSizeViewport = useCallback((e) => {
     setCountInPage(largeViewport.matches?12:middleViewport.matches?8:5);
     setCountInRow(largeViewport.matches?3:middleViewport.matches?2:1);
     setHeightRow(largeViewport.matches?291:middleViewport.matches?278:238);
-
   },[largeViewport.matches, middleViewport.matches])
 
-  const handleChangeSizeViewport = (e) => {
-    setCountInPage(largeViewport.matches?12:middleViewport.matches?8:5);
-    setCountInRow(largeViewport.matches?3:middleViewport.matches?2:1);
-    setHeightRow(largeViewport.matches?291:middleViewport.matches?278:238);
-  }
+  useEffect(()=>{
+    handleChangeSizeViewport();
+  },[handleChangeSizeViewport])
+
   window.addEventListener( "resize", handleChangeSizeViewport);
 
 

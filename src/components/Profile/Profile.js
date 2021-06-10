@@ -99,7 +99,7 @@ function Profile(props) {
             value={data.name}
             onChange={handleChange}
             onClick={handleSelect}
-            pattern="[A-Za-zА-ЯЁа-яё ]{2,30}"
+            pattern="[A-Za-zА-ЯЁа-яё \-]{2,30}"
             required
             disabled={props.isInfoTooltipOpen}
           />

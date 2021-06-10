@@ -21,12 +21,14 @@ const useFormValidation = (data)=> {
   };
 
   const resetForm = useCallback(
-    (newValues = {}, newErrors = {}, newIsValid = false) => {
+    (newValues = {}, newErrors = {}, newIsValid = false, newName = "", newEmail="") => {
       setValues(newValues);
       setErrors(newErrors);
       setIsValid(newIsValid);
+      setName(newName);
+      setEmail(newEmail)
     },
-    [setValues, setErrors, setIsValid]
+    [setValues, setErrors, setIsValid,setName, setEmail]
   );
   return { values, handleChange, errors, isValid, resetForm, name, email};
 }

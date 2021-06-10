@@ -1,22 +1,27 @@
+import { useCallback } from "react";
+
 
 
 const useFilter=()=>{
 
-
-  const filterByKeyword=(films, word)=>{
-    // debugger
-      const filter = films.filter((item) => {
-
-        return item.nameRU.toLowerCase().includes(word);
+  const filterByKeyword=useCallback((films, word)=>{
+      const filter = films.filter((item, i) => {
+        if (word==="*") {
+          return films
+        }
+        return item.nameRU&&item.nameRU.toLowerCase().includes(word)
       });
-
       return filter
-    }
-  const fiterByCheckbox=()=>{
 
-  }
+    },[])
+  const fiterByCheckbox=useCallback((films)=>{
+    const filter = films.filter((item, i) => {
+      return item.duration&&item.duration <= 40
+    });
+    return filter
+  },[])
 
-  return {filterByKeyword}
+  return {filterByKeyword, fiterByCheckbox }
 }
 
 export default useFilter;

@@ -68,7 +68,7 @@ function Register(props) {
           value={data.name||''}
           required
           onChange={handleChange}
-          pattern="[A-Za-zА-ЯЁа-яё ]{2,30}"
+          pattern="[A-Za-zА-ЯЁа-яё \-]{2,30}"
           disabled={props.isInfoTooltipOpen}
           />
         <span id='form-name-input-error' className={(!errors.name)?"form__error": "form__error form__error_visible"}>

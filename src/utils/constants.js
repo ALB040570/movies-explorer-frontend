@@ -10,7 +10,9 @@ const parametrs = {
   inputErrorClass: 'form__input_error',
   errorClass: 'form__error_visible',
   formFieldset: '.form__fieldset',
-  // openButtonSelector:'button',
+
 };
 
-export {parametrs, optionsForApi};
+const notImage ='https://elitas.ru/images/no-image-large.jpg'
+
+export {parametrs, optionsForApi, notImage};

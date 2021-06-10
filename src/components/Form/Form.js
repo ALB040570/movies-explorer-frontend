@@ -55,6 +55,8 @@ function Form(props) {
                 pattern="(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}"
                 required
                 disabled={props.isInfoTooltipOpen}
+                // autocomplete="off"
+
                 />
               <span
                 id={`${props.formName}-form-input-error`}

@@ -8,21 +8,29 @@ import { useState, useCallback, useEffect } from 'react';
 
 //компонент страницы с поиском по фильмам
 function Movies(props) {
-  const [moviesFromServis, setMoviesFromServis]=useState({});
-  const {filterByKeyword}= useFilter();
+  const {filterByKeyword, fiterByCheckbox}= useFilter();
+
+  const [moviesFromServis, setMoviesFromServis]=useState(props.allMovies);
 
   const filter = useCallback(
     () => {
       if (props.isRequest) {
-        const filter =filterByKeyword(props.allMovies,props.isRequest);
-        setMoviesFromServis(filter);
-        localStorage.setItem('movies', JSON.stringify(filter))
+        const filterByNameRU =filterByKeyword(props.allMovies,props.isRequest);
+        setMoviesFromServis(filterByNameRU);
+        localStorage.setItem('movies', JSON.stringify(filterByNameRU));
+        if (props.isCheckFilterClicked) {
+          const filterByDuration =fiterByCheckbox(filterByNameRU);
+          setMoviesFromServis(filterByDuration);
+          localStorage.setItem('movies', JSON.stringify(filterByDuration))
+        }
       }
     },
-    [props.allMovies, props.isRequest],
+    [filterByKeyword, fiterByCheckbox, props.isCheckFilterClicked, props.allMovies, props.isRequest],
   );
 useEffect(()=>{
+
   filter();
+
 },[filter])
 
 
@@ -31,26 +39,31 @@ useEffect(()=>{
     <>
       <Header />
       <main className="main">
-        <SearchForm onUpdateSearch={props.onChangeRequest} keyword={props.isRequest}/>
-        { localStorage.getItem('movies')?<Results
-            isFetching={false}
-            isError={''}
-            movies={JSON.parse(localStorage.getItem('movies'))}
-            keyword={JSON.parse(localStorage.getItem('keyword'))}
-            onSavedMovie={props.onSavedMovie}
-            onNotSavedMovie={props.onNotSavedMovie}
-            currentPage={props.currentPage}
-          />:
-          props.isRequest&&<Results
-            isFetching={props.isFetching}
-            isError={props.isError}
-            movies={moviesFromServis}
-            keyword={JSON.parse(localStorage.getItem('keyword'))}
-            onSavedMovie={props.onSavedMovie}
-            onNotSavedMovie={props.onNotSavedMovie}
-            currentPage={props.currentPage}
-
+        <SearchForm
+          onUpdateSearch={props.onChangeRequest}
+          keyword={props.isRequest}
+          isCheckFilterClicked={props.isCheckFilterClicked}
+          onCheckFilterClick={props.onCheckFilterClick}
           />
+          {props.isRequest?<Results
+              isFetching={props.isFetching}
+              isError={props.isError}
+              movies={JSON.parse(localStorage.getItem('movies'))?JSON.parse(localStorage.getItem('movies')):moviesFromServis}
+              keyword={JSON.parse(localStorage.getItem('keyword'))}
+              onSavedMovie={props.onSavedMovie}
+              onNotSavedMovie={props.onNotSavedMovie}
+              currentPage={props.currentPage}
+            />:
+            localStorage.getItem('movies')&&<Results
+              isFetching={false}
+              isError={''}
+              movies={JSON.parse(localStorage.getItem('movies'))}
+              keyword={JSON.parse(localStorage.getItem('keyword'))}
+              onSavedMovie={props.onSavedMovie}
+              onNotSavedMovie={props.onNotSavedMovie}
+              currentPage={props.currentPage}
+            />
+
 
           }
       </main>

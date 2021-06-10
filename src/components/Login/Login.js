@@ -21,8 +21,9 @@ function Login(props) {
   },[values])
 
   const handleReset = () => {
-    resetForm();
+    
     props.reset();
+    resetForm();
     setData({
       email: '',
       password: '',

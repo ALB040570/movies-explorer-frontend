@@ -9,6 +9,7 @@ function SearchForm(props) {
     localStorage.getItem('keyword')?JSON.parse(localStorage.getItem('keyword')):''
     );
   const searchInput = document.getElementById('keyword');
+  
 
   //обработчик изменения значения поля ввода ключевого слова
   const handleSetSearchInputValue = (e) =>{
@@ -58,9 +59,15 @@ function SearchForm(props) {
                 className="search-form__button">
                 </button>
             </div>
-            <FilterCheckbox display="filter_right"/>
+            <FilterCheckbox
+              isCheckFilterClicked={props.isCheckFilterClicked}
+              onCheckFilterClick={props.onCheckFilterClick}
+              display="filter_right"/>
         </div>
-        <FilterCheckbox display="filter_bottom"/>
+        <FilterCheckbox
+          isCheckFilterClicked={props.isCheckFilterClicked}
+          onCheckFilterClick={props.onCheckFilterClick}
+          display="filter_bottom"/>
       </form>
     </section>
   );

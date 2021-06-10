@@ -12,12 +12,10 @@ import MoviesApi from '../../utils/MoviesApi';
 import api from '../../utils/MainApi';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import ProtectedRoute from './ProtectedRoute';
-import useFilter from '../../utils/useFilter';
 
 
 
 function App() {
-  const {filterByKeyword}=useFilter();
 
   const history = useHistory();
 
@@ -41,11 +39,15 @@ function App() {
   const[savedMovies, setSavedMovies]=useState([]);
   // const[filterFromSavedMovies,setFilterFromSavedMovies]=useState([]);
   const[isRequestInSavedMovies, setIsRequestInSavedMovies] = useState('');//значение для поиска фильмов
+  const [isCheckFilterClicked, setIsCheckFilterClicked] = useState(localStorage.getItem('isCheck')?JSON.parse(localStorage.getItem('isCheck')):false);
+  const [isCheckFilterClickedInSavedMovies, setIsCheckFilterClickedInSavedMovies] = useState(localStorage.getItem('isCheckInSavedMovies')?JSON.parse(localStorage.getItem('isCheckInSavedMovies')):false);
 
   const currentPage={
     1: 'movies',
     2: 'saved-movies'
   }
+
+  const currenPathname = window.location.pathname;
 
   //установка текущего пользователя
   useEffect(()=>{
@@ -61,28 +63,40 @@ function App() {
       })
     .catch((err) => {console.log(err);});
   },[loggedIn,userData]);
-
-  //выход из аккаунта
-  const onSignOut =() => {
-    setLoggedIn(false);
+  //очистка хранилища и полей поиска
+  const clean =() => {
     setMoviesFromServis([]);
     // filterFromSavedMovies([]);
     setIsRequest('');
     setIsRequestInSavedMovies('');
+    setIsCheckFilterClicked(false);
+    setIsCheckFilterClickedInSavedMovies(false);
     localStorage.removeItem('jwt');
     localStorage.removeItem('keyword');
     localStorage.removeItem('keywordForSavedMovies');
     localStorage.removeItem('movies');
     localStorage.removeItem('savedMovies');
+    localStorage.removeItem('filterFromSavedMovies');
+    localStorage.removeItem('isCheck');
+    localStorage.removeItem('isCheckInSavedMovies');
+  }
+  //выход из аккаунта
+  const onSignOut =() => {
+    setLoggedIn(false);
+    clean();
     history.push('/');
   }
 
-  //переход на страницу Фильмы
+  //переход на страницу при авториизации
   useEffect(()=>{
+
     if (loggedIn) {
-      history.push('/movies');
+      if ((currenPathname==='/signin')||(currenPathname==='/signup')) {
+        return  history.push('/movies');
+      }
+      return history.push(currenPathname);
     }
-  }, [loggedIn, history,userData])
+  }, [loggedIn, history, userData, currenPathname])
 
   //устанавливает значение фильтра для поиска
   const handleChangeRequest = (keyword) => {
@@ -98,7 +112,31 @@ function App() {
     setIsRequestInSavedMovies(keyword.toLowerCase());
   }}
 
+  const onCheckFilterClick = () => {
+    if (isCheckFilterClicked === false) {
+      setIsCheckFilterClicked(true);
+      localStorage.setItem('isCheck',JSON.stringify(true));
+      setIsRequest(localStorage.getItem('keyword')?JSON.parse(localStorage.getItem('keyword')).toLowerCase():'')
 
+    } else {
+      setIsCheckFilterClicked(false);
+      localStorage.setItem('isCheck',JSON.stringify(false));
+      setIsRequest(localStorage.getItem('keyword')?JSON.parse(localStorage.getItem('keyword')).toLowerCase():'')
+    }
+  }
+
+  const onCheckFilterClickInSavedMovies = () => {
+    if (isCheckFilterClickedInSavedMovies === false) {
+      setIsCheckFilterClickedInSavedMovies(true);
+      localStorage.setItem('isCheckInSavedMovies',JSON.stringify(true));
+      setIsRequestInSavedMovies(JSON.parse(localStorage.getItem('keywordForSavedMovies')).toLowerCase())
+
+    } else {
+      setIsCheckFilterClickedInSavedMovies(false);
+      localStorage.setItem('isCheckInSavedMovies',JSON.stringify(false));
+      setIsRequestInSavedMovies(JSON.parse(localStorage.getItem('keywordForSavedMovies')).toLowerCase())
+    }
+  }
    //загружает данные с сервиса beatfilm-movies
   useEffect(()=>{
     const token = localStorage.getItem('jwt');
@@ -109,8 +147,9 @@ function App() {
     setIsFetching(true);
     isRequest&&MoviesApi()
       .then ((filmsFromServis) => {
-        setMoviesFromServis(()=>filmsFromServis);
+        setMoviesFromServis(filmsFromServis);
         setIsFetching(false);
+
       })
       .catch((err) => {
         setIsError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
@@ -119,7 +158,7 @@ function App() {
       },[isRequest]);
 
   //загружает сохраненные фильмы
-  useEffect(()=>{
+  const loadSavedMovies=()=>{
     const token = localStorage.getItem('jwt');
     if (!token) {
       return
@@ -134,8 +173,10 @@ function App() {
       .catch((err) => {
         setIsError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
         console.log(err);});
+  }
+  useEffect(()=>{
+    loadSavedMovies();
   }, [isRequestInSavedMovies, loggedIn])
-
 
 
   const onRegister = (name, email, password) =>{
@@ -160,11 +201,13 @@ function App() {
       .authorize(email, password)
       .then((res) => {
         if (res.data.token){
+          clean();
           localStorage.setItem('jwt', res.data.token);
           setLoggedIn(true);
-          setUserData({email: email})
+          setUserData({email: email});
           setInfoTooltipOpen(false);
           setTypeInfo('');
+          loadSavedMovies();
         }
       })
       .catch((e) => {
@@ -217,7 +260,6 @@ function App() {
     .catch((err) => {console.log(err);});
   }
 
-
    const handleMoveDelete=(movie) =>{
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.deleteMovie(movie._id)
@@ -231,6 +273,7 @@ function App() {
     })
     .catch((err) => {console.log(err);});
   }
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -248,8 +291,10 @@ function App() {
           onSavedMovie = {handleAddMovie}
           onNotSavedMovie={handleMoveDelete}
           allMovies = {moviesFromServis}
-          isFetching={isRequest?isFetching:false}
+          isFetching={isFetching}
           currentPage={currentPage[1]}
+          onCheckFilterClick={onCheckFilterClick}
+          isCheckFilterClicked={isCheckFilterClicked}
         />
 
        <ProtectedRoute path="/saved-movies"
@@ -262,10 +307,13 @@ function App() {
           savedMovies = {savedMovies}
           isFetching={false}
           isError={isError}
+          onCheckFilterClick={onCheckFilterClickInSavedMovies}
+          isCheckFilterClicked={isCheckFilterClickedInSavedMovies}
         />
 
-        <Route path="/profile">
-          <Profile
+        <ProtectedRoute path="/profile"
+            loggedIn={loggedIn}
+            component={Profile}
             onEditProfile={onEditProfile}
             isInfoTooltipOpen={isInfoTooltipOpen}
             typeInfo={typeInfo}
@@ -274,7 +322,7 @@ function App() {
             close={close}
 
             />
-        </Route>
+
         <Route path="/signin">
           <Login onLogin={onLogin}
             data={userData}
@@ -291,7 +339,7 @@ function App() {
           />
         </Route>
         <Route path='*'>
-          <PageNotFound history={history}/>
+          <PageNotFound goBack={()=>history.goBack()}/>
         </Route>
       </Switch>
 
