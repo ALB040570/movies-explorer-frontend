@@ -1,9 +1,9 @@
 import './NavTab.css';
 
-function NavTab() {
+function NavTab(props) {
   return (
     <section className="main__section navtab">
-      <a className="navtab__link" href="#project">Узнать больше</a>
+      <a className="navtab__link" href="#project" onClick={props.onClick}>Узнать больше</a>
     </section>
   );
 }

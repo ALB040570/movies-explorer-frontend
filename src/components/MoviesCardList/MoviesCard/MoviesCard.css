@@ -2,7 +2,7 @@
 .movie-card {
   display: grid;
   grid-template-columns: 274px 86px;
-  grid-template-rows: 201px 30px;
+  grid-template-rows: 201px 32px;
   justify-content: flex-start;
   align-items: center;
 }
@@ -12,7 +12,7 @@
   border-radius: 6px;
   height: 201px;
   width: 360px;
-  object-fit: contain;
+  object-fit: cover;
   grid-area: 1/ 1/ 1/ 2;
   z-index: 2;
 }

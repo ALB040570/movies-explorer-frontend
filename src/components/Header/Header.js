@@ -9,6 +9,7 @@ import './Header.css';
 //компонент, который отрисовывает шапку сайта на страницу
 function Header(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const token = localStorage.getItem('jwt');
 
   const menuOpen = () => setIsMenuOpen(true);
   const menuClose = () => setIsMenuOpen(false);
@@ -20,14 +21,41 @@ function Header(props) {
           <Link to="/">
             <img className="logo" src={Logo} alt='логотип'/>
           </Link>
-          <nav>
+          {!token?<nav>
             <Link to='/signup'>
               <button className="header__button">Регистрация</button>
             </Link>
             <Link to='/signin'>
-              <button className="header__button header__button_focus">Войти</button>
+              <button className="header__button">Войти</button>
+            </Link>
+          </nav>:
+          <nav className="header__bar">
+            <div  className={`header__menu ${isMenuOpen && 'header__menu_opened'}`}>
+              <Navigation isMenuOpen={isMenuOpen}/>
+            </div>
+            <div
+              className="header__menu-button white-menu-button"
+              onClick = {menuOpen}>
+                <div className="white-menu-line" />
+                <div className="white-menu-line" />
+                <div className="white-menu-line" />
+            </div>
+            {isMenuOpen && <div className="header__overlay"></div>}
+            {isMenuOpen &&  <button
+              type="button"
+              className="header__close-button"
+              onClick={menuClose}>
+                </button>}
+            <Link  className="header__account-text" to='/profile'>
+              <div className="header__account header__button_display">
+                <p className="header__account-text header__account-text_dark">Аккаунт</p>
+                <div className="header__account-icon">
+                  <img src={Profile} alt='аккаунт'/>
+                </div>
+              </div>
             </Link>
           </nav>
+          }
         </header>
       </Route>
       <Route exact path = {['/signup', '/signin']}>
@@ -37,17 +65,26 @@ function Header(props) {
         </header>
       </Route>
       <Route path={['/movies', '/saved-movies', '/profile']}>
-        <header className='header'>
-          <Link to="/">
+        <header className='header' >
+          <Link  to="/">
             <img className="logo" src={Logo} alt='логотип'/>
           </Link>
           <nav className="header__bar">
-            <div  className={`header__menu ${isMenuOpen && 'header__menu_opened'}`}><Navigation isMenuOpen={isMenuOpen}/></div>
-              <img className="header__menu-button" src={Menu} alt='кнопка меню' onClick = {menuOpen} />
-              {isMenuOpen && <div className="header__overlay"></div>}
-              {isMenuOpen &&  <button type="button" className="header__close-button" onClick={menuClose}></button>}
-              <Link to='/profile'><button className="header__button header__button_display"><img src={Profile} alt='аккаунт'/></button></Link>
-            </nav>
+            <div  className={`header__menu ${isMenuOpen && 'header__menu_opened'}`}>
+              <Navigation isMenuOpen={isMenuOpen}/>
+            </div>
+            <img className="header__menu-button" src={Menu} alt='кнопка меню' onClick = {menuOpen} />
+            {isMenuOpen && <div className="header__overlay"></div>}
+            {isMenuOpen &&  <button type="button" className="header__close-button" onClick={menuClose}></button>}
+            <Link  className="header__account-text" to='/profile'>
+            <div className="header__account header__button_display">
+                <p className="header__account-text">Аккаунт</p>
+                <div className="header__account-icon">
+                  <img src={Profile} alt='аккаунт'/>
+                </div>
+              </div>
+            </Link>
+          </nav>
           {/* </div> */}
         </header>
       </Route>

@@ -4,7 +4,7 @@
   list-style-type: none;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 57px 30px;
+  gap: 58px 30px;
   padding-inline-start: 0;
   max-width: calc(100vw - 140px);
   overflow: hidden;
@@ -12,12 +12,18 @@
 
 .movies-list_movies {
   margin: 80px 0 26px 0;
+  /* height: 1100px; */
+}
+.movies-list_scroll {
+
   height: 1100px;
+  overflow: scroll;
+  align-self: flex-end;
 }
 
 .movies-list_saved-movies {
   margin: 80px 0 100px 0;
-  height: 250px;
+  /* height: 250px; */
   overflow:visible;
 }
 
@@ -58,7 +64,7 @@
 /*точки перелома*/
 @media screen and (min-width: 1280px) {
   .movies-list {
-    max-width: calc(1280px - 60px);
+    max-width: calc(1280px - 140px);
   }
 }
 
@@ -79,6 +85,11 @@
     gap: 36px 30px;
     max-width: calc(100vw - 20px);
     min-width: 300px;
+  }
+
+  .movies-list_scroll {
     height: 1150px;
-}
+
+  }
+
 }

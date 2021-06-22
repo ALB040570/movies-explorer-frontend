@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
 import './AboutProject.css';
 
-function AboutProject() {
+function AboutProject(props) {
+useEffect(()=>{
+  props.element(document.getElementById("project"))
+})
+
   return (
-      <section className="main__section project">
-        <h2 className="main__section-title">О проекте</h2>
+      <section id="project" className="main__section project">
+        <h2 className="main__section-title" >О проекте</h2>
         <ul className="project__cards">
           <li>
             <h3 className="project__cards-title">Дипломный проект включал 5 этапов</h3>
